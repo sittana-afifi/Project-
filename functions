@@ -1,0 +1,74 @@
+### get the two graphs from prover as list
+### use generate_graph() to transform it to graph
+
+from graph_tools import *
+def generate_graph(g):
+    d = Graph(directed=False)
+    for i in range(len(g)):
+        d.add_edge(g[(i-1)],g[(i)%len(g)])
+    print( d)
+g0 = list(map(int,input("Enter the first graph(G0) as a list :").strip().split()))
+g1 = list(map(int,input("Enter the second graph(G1) as a list :").strip().split()))
+print('G0=')
+generate_graph(g0)
+print('G1=')
+generate_graph(g1)
+
+
+### apply permutation to the graph by using apply_permute()
+
+def apply_permute(p,g):
+    g1=[0]*len(p)
+    if len(p)==len(g):
+        for i in range(len(p)):
+            g1[i]=g[((p[i]-1)%len(p))]
+        pass
+    return g1
+   
+   ### composite two permutation using composite_permutition()
+   
+   def composite_permutition(p1,p2):
+    apply_permute(p1,p2)
+   
+   ## check if two permutation produce the same graph using are_same()
+   
+   def are_same(g0,g1):
+    s=0
+    q=0
+    for v in g0.vertices():
+        s=s+1
+    for u in g1.vertices():
+        q=q+1
+    a=0
+    for e in g0.edges():
+        for f in g1.edges():
+            if e==f :
+                a=a+1
+                break
+    if a==q and s==q :
+        return True
+    else :
+        return False
+        
+        
+### generate permutation those produce different graphs using s_n() 
+
+def s_n(n):
+    from itertools import permutations 
+    l = list(permutations(range(1, n+1)))
+    l1=[]
+    l2=[]
+    l3=[]
+    for i in range(len(l)):
+        if l[i][0]==1:
+            l1.append(l[i])
+    l2=To_list(l1)
+    for i in range(len(l2)):
+        for j in range(i+1,len(l2)):
+            i1=Graph()
+            j1=Graph()
+            i1=generate_graph(l2[i])
+            j1=generate_graph(l2[j])
+            if are_same(i1,j1)==True :
+                l3.append(l2[i])
+    return l3
