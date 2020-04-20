@@ -1,12 +1,23 @@
-### get the two graphs from prover as list
+
 ### use generate_graph() to transform it to graph
 
 from graph_tools import *
-def generate_graph(g):
+def generate_graph():
+    n = int(input("Enter the size of the matrix:"))  
+    print("Enter the entries in a single line (separated by space): ") 
+  
+#User input of entries in a single line separated by space 
+    entries = list(map(int, input().split())) 
+    AM = np.array(entries).reshape(n, n) 
     d = Graph(directed=False)
-    for i in range(len(g)):
-        d.add_edge(g[(i-1)],g[(i)%len(g)])
-    print( d)
+    d.add_vertex(len(AM))
+    for i in range(len(AM)):
+        for j in range(i,len(AM)):
+            if AM[i][j]==1:
+                d.add_edge(i,j)
+    return( d)
+
+### get the two graphs from prover as adjecny matrix
 g0 = list(map(int,input("Enter the first graph(G0) as a list :").strip().split()))
 g1 = list(map(int,input("Enter the second graph(G1) as a list :").strip().split()))
 print('G0=')
@@ -25,10 +36,17 @@ def apply_permute(p,g):
         pass
     return g1
    
+   
    ### composite two permutation using composite_permutition()
    
    def composite_permutition(p1,p2):
-    apply_permute(p1,p2)
+    g1=[0]*len(p)
+    if len(p)==len(g):
+        for i in range(len(p)):
+            g1[i]=g[((p[i]-1)%len(p))]
+        pass
+    return g1
+   
    
    ## check if two permutation produce the same graph using are_same()
    
