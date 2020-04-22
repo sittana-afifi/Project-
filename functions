@@ -30,11 +30,13 @@ generate_graph(g1)
 
 def apply_permute(p,g):
     g1=[0]*len(p)
+    s=min(g)
     if len(p)==len(g):
         for i in range(len(p)):
-            g1[i]=g[((p[i]-1)%len(p))]
+            g1[i]=g[((p[i]-s)%len(p))]
         pass
     return g1
+        
    
    
    ### composite two permutation using composite_permutition()
