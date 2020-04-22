@@ -70,8 +70,18 @@ def apply_permute(p,g):
     else :
         return False
         
-        
+ ###tansform permutation to cyclic graph to deal easy with it
+ 
+ def tran_permu_to_graph(g):
+    d = Graph(directed=False)
+    d.add_vertex(len(g))
+    for i in range(len(g)):
+        d.add_edge(g[(i)],g[(i+1)%len(g)])
+    return d
+    
+    
 ### generate permutation those produce different graphs using s_n() 
+
 
 def s_n(n):
     from itertools import permutations 
@@ -87,11 +97,12 @@ def s_n(n):
         for j in range(i+1,len(l2)):
             i1=Graph()
             j1=Graph()
-            i1=generate_graph(l2[i])
-            j1=generate_graph(l2[j])
+            i1=tran_permu_to_graph(l2[i])
+            j1=tran_permu_to_graph(l2[j])
             if are_same(i1,j1)==True :
                 l3.append(l2[i])
     return l3
+
 ### find the inverse of permutation using inv()
 
 def inv(perm):
