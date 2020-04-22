@@ -92,3 +92,13 @@ def s_n(n):
             if are_same(i1,j1)==True :
                 l3.append(l2[i])
     return l3
+### find the inverse of permutation using inv()
+
+def inv(perm):
+    s=min(perm)
+    inverse = [0] * len(perm)
+    for i, p in enumerate(perm):
+        inverse[p-s] = i+s
+    return inverse
+    
+  
