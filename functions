@@ -6,7 +6,7 @@ def generate_graph():
     n = int(input("Enter the size of the matrix:"))  
     print("Enter the entries in a single line (separated by space): ") 
   
-#User input of entries in a single line separated by space 
+###User input of entries of adjeceny matrx in a single line separated by space 
     entries = list(map(int, input().split())) 
     AM = np.array(entries).reshape(n, n) 
     d = Graph(directed=False)
@@ -26,9 +26,9 @@ print('G1=')
 generate_graph(g1)
 
 
-### apply permutation to the graph by using apply_permute()
+### composite two permutation using composite_permutition()
 
-def apply_permute(p,g):
+def composite_permutition(p,g):
     g1=[0]*len(p)
     s=min(g)
     if len(p)==len(g):
@@ -39,15 +39,7 @@ def apply_permute(p,g):
         
    
    
-   ### composite two permutation using composite_permutition()
-   
-   def composite_permutition(p1,p2):
-    g1=[0]*len(p)
-    if len(p)==len(g):
-        for i in range(len(p)):
-            g1[i]=g[((p[i]-1)%len(p))]
-        pass
-    return g1
+  
    
    
    ## check if two permutation produce the same graph using are_same()
