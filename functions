@@ -1,5 +1,5 @@
 
-### use generate_graph() to transform it to graph
+### use generate_graph() to transform adjeceny matrix to graph
 
 from graph_tools import *
 def generate_graph():
