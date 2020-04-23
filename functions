@@ -6,7 +6,7 @@ def generate_graph():
     n = int(input("Enter the size of the matrix:"))  
     print("Enter the entries in a single line (separated by space): ") 
   
-###User input of entries of adjeceny matrx in a single line separated by space 
+    #User input of entries of adjeceny matrx in a single line separated by space 
     entries = list(map(int, input().split())) 
     AM = np.array(entries).reshape(n, n) 
     d = Graph(directed=False)
@@ -17,13 +17,30 @@ def generate_graph():
                 d.add_edge(i,j)
     return( d)
 
-### get the two graphs from prover as adjecny matrix
-g0 = list(map(int,input("Enter the first graph(G0) as a list :").strip().split()))
-g1 = list(map(int,input("Enter the second graph(G1) as a list :").strip().split()))
-print('G0=')
-generate_graph(g0)
-print('G1=')
-generate_graph(g1)
+
+
+### get the two graphs from prover as adjecny matrix and print them using recive_graph()
+def recive_graph():
+    g0=generate_graph()
+    print(g0)
+    g1=generate_graph()
+    print(g1)
+    
+    
+    
+### apply permutation to adjeceny matrix using apply_permut()
+
+def apply_permut(AM,p):
+    M=np.array(AM)
+    s=min(p)
+    for i in range(len(p)):
+        p[i]=p[i]-s
+    for i in range(len(p)):
+        M[:,i] = M[p,i]
+    for i in range(len(p)):
+        M[i,:] = M[i,p]
+    return M    
+    
 
 
 ### composite two permutation using composite_permutition()
@@ -40,7 +57,6 @@ def composite_permutition(p,g):
    
    
   
-   
    
    ## check if two permutation produce the same graph using are_same()
    
@@ -62,6 +78,8 @@ def composite_permutition(p,g):
     else :
         return False
         
+        
+        
  ###tansform permutation to cyclic graph to deal easy with it
  
  def tran_permu_to_graph(g):
@@ -72,8 +90,8 @@ def composite_permutition(p,g):
     return d
     
     
+    
 ### generate permutation those produce different graphs using s_n() 
-
 
 def s_n(n):
     from itertools import permutations 
@@ -94,6 +112,8 @@ def s_n(n):
             if are_same(i1,j1)==True :
                 l3.append(l2[i])
     return l3
+
+
 
 ### find the inverse of permutation using inv()
 
