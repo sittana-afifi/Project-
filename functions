@@ -124,4 +124,12 @@ def inv(perm):
         inverse[p-s] = i+s
     return inverse
     
-  
+    
+    
+### transform the permutation to list of list using
+ 
+ def To_list(l):
+    l1=[]
+    for i in l:
+        l1.append(list(i))
+    return l1
