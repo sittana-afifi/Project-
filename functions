@@ -1,6 +1,6 @@
 
 ### use generate_graph() to transform adjeceny matrix to graph
-
+import numpy as np
 from graph_tools import *
 def generate_graph():
     n = int(input("Enter the size of the matrix:"))  
@@ -10,7 +10,7 @@ def generate_graph():
     entries = list(map(int, input().split())) 
     AM = np.array(entries).reshape(n, n) 
     d = Graph(directed=False)
-    d.add_vertex(len(AM))
+    d.add_vertex(len(AM)-1)
     for i in range(len(AM)):
         for j in range(i,len(AM)):
             if AM[i][j]==1:
