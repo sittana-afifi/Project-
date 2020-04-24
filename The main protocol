@@ -1,1 +1,20 @@
-
+def graph_isomorphism(P,V):
+    message_list=[]
+    prover_move=True
+    while len(message_list)>0 and not message_list[-1] in {'accept','erject'}:
+        if prover_move :
+            message_list=P(message_list)
+        else :
+            message_list=V(message_list)
+        prover_move= not prover_move
+    return message_list
+    
+    
+g0=generate_graph()
+g1=generate_graph()
+def test_isomorphism():
+    pi=list(map(int, input('Enter pi:').split())) 
+    V=lambda msg: honest_verifier(g0,g1,msg)
+    P=lambda msg: honest_prover(g0,g1,pi,msg)
+    graph_isomorphism(P,V)
+test_isomorphism()
