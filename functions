@@ -65,12 +65,8 @@ def composite_permutition(p,g):
    ## check if two graphs are equal using are_same()
    
    def are_same(g0,g1):
-    s=0
-    q=0
-    for v in g0.vertices():
-        s=s+1
-    for u in g1.vertices():
-        q=q+1
+    s=len(g0.vertices())
+    q=len(g1.vertices())
     a=0
     for e in g0.edges():
         for f in g1.edges():
