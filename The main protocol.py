@@ -1,7 +1,7 @@
 def graph_isomorphism(P,V):
     message_list=[]
     prover_move=True
-    while len(message_list)>0 and not message_list[-1] in {'accept','erject'}:
+    while len(message_list)>0 and not message_list[-1] in {'accept','reject'}:
         if prover_move :
             message_list=P(message_list)
         else :
