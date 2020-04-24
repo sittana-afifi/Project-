@@ -62,7 +62,7 @@ def composite_permutition(p,g):
    
   
    
-   ## check if two permutation produce the same graph using are_same()
+   ## check if two graphs are equal using are_same()
    
    def are_same(g0,g1):
     s=0
