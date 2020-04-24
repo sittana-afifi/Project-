@@ -2,20 +2,24 @@
 ### use generate_graph() to transform adjeceny matrix to graph
 import numpy as np
 from graph_tools import *
-def generate_graph():
+def adj_mat():
     n = int(input("Enter the size of the matrix:"))  
     print("Enter the entries in a single line (separated by space): ") 
-  
-    #User input of entries of adjeceny matrx in a single line separated by space 
     entries = list(map(int, input().split())) 
     AM = np.array(entries).reshape(n, n) 
+    return AM
+    
+    
+def generate_graph():
+#User input of entries in a single line separated by space 
+    AM=adj_mat()
     d = Graph(directed=False)
     d.add_vertex(len(AM)-1)
     for i in range(len(AM)):
         for j in range(i,len(AM)):
             if AM[i][j]==1:
                 d.add_edge(i,j)
-    return( d)
+    return d
 
 
 
