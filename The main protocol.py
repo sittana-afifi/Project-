@@ -10,42 +10,49 @@ def graph_isomorphism(P,V):
     return message_list
     
     
-g0=generate_graph()
-g1=generate_graph()
 def test_isomorphism():
+    AM=enter_adjMatrix()
+    AM1=enter_adjMatrix()
     pi=list(map(int, input('Enter pi:').split())) 
-    V=lambda msg: honest_verifier(g0,g1,msg)
-    P=lambda msg: honest_prover(g0,g1,pi,msg)
+    V=lambda msg: honest_verifier(AM,AM1,msg)
+    P=lambda msg: honest_prover(AM,AM1,pi,msg)
     graph_isomorphism(P,V)
-test_isomorphism()
+
+
+    
+ import math
+def honest_prover(AM,AM1,pi,mess_list):
+    if len(mess_list)==0:
+        n=len(AM)
+        sigma = np.random.permutation(range(0,n))
+        h=apply_permut(AM,sigma)
+        H=generate_graph(h)
+        mess_list.append(H)
+        #print(H)
+    if len(mess_list)==1:
+        if ch==0:
+            mess_list.append(sigma)
+            print(sigma)
+        else:
+            p=inv(pi)
+            message_list.append(composite_permut(p,sigma))
+            print(composite_permut(p,sigma))
+    return mess_list
 
 
 
-def honest_verifier():
-    ch=random.choice(range(1))
-    phi=message_list[2]
-    H1=apply_permut(g0,phi)
+def honest_verifier(AM,AM1,mess_list):
+    if mess_list==1:
+        ch=random.choice(range(1))
+        message_list.append(ch)
+        H1=apply_permut(AM,phi)
     r=are_same(H,H1)
     if r==True:
-        message_list[3]='accept'
+        mess_list.append('accept')
     else:
-        message_list[3]='reject'
+        mess_list.append('reject')
         
-    return message+[new_message]
+    return mess_list
     
     
     
-    import math
-def honest_prover():
-    n=int(input('Enter the length of your graphs:'))
-    i = random.choice(range(int(math.factorial(n-1)/2)))
-    sigma=s_n(n)[i]
-    a0=adj_mat()
-    h=apply_permut(a0,sigma)
-    H=generate_graph()
-    ch=message_list[1]
-    if ch==0:
-        message_list[2]=sigma
-    else:
-        p=inv(pi)
-        message_list[2]=composite_permut(p,sigma)
