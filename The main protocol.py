@@ -30,14 +30,14 @@ import math
 def honest_prover(AM,AM1,pi,mess_list,s):
     n=len(AM)
     if len(mess_list)==0:
-        sigma =np.random.seed(s)
+        np.random.seed(s)
         sigma =np.random.permutation(n)
         h=apply_permut(AM,sigma)
         H=generate_graph(h)
         mess_list.append(H)
         #print(sigma)
     if len(mess_list)==2:
-        sigma =np.random.seed(s)
+        np.random.seed(s)
         sigma =np.random.permutation(n)
         ch=mess_list[1]
         #print(sigma)
