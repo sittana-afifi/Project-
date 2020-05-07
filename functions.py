@@ -20,6 +20,7 @@ def apply_permute(AM,pi):
     l=[]
     l1=[]
     l2=[]
+    l0=[]
     for i in range (len(AM)):
         for j in range (len(AM)):
             if AM[i][j]==1 :
@@ -28,20 +29,15 @@ def apply_permute(AM,pi):
     for i in range (n):
         l1.append( sorted(l[i]))
     l2=sorted(l1)
-    for i in range (len(AM)):
+    for i in range (len(l2)-1):
         if l2[i]==l2[(i+1)]:
-            l2.remove(l2[i])
-    l3=np.zeros([len(AM),2])
-    for i in range (len(AM)): 
+            l0.append(l2[i])
+    l3=np.zeros([len(l0),2])
+    for i in range (10): 
         for j in range (2):
-            if l2[i][j]==0:
-                l3[i][j]=pi[0]
-            if l2[i][j]==1:
-                l3[i][j]=pi[1]
-            if l2[i][j]==2:
-                l3[i][j]=pi[2]
-            if l2[i][j]==3:
-                l3[i][j]=pi[3]
+            for k in range(10): 
+                if l0[i][j]==k:
+                    l3[i][j]=pi[k]
     AM0=np.zeros([len(AM),len(AM)])
     for i in range (len(l3)):
         a,b=l3[i]
