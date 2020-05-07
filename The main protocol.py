@@ -140,3 +140,18 @@ def equal(AM):
         else:
             mess_list.append(np.random.permutation(n))
     return mess_list
+
+
+def simulator(AM,AM1,s):
+    mess_list=[]
+    sigma =np.random.seed(s)
+    sigma =np.random.permutation(n)
+    h=apply_permut(AM,sigma)
+    mess_list.append(h)
+    b=random.choice(range(2))
+    ch=random.choice(range(2))
+    if ch == b:
+        print('accept')
+        return sigma
+    else :
+        simulator(AM,AM1,s)
