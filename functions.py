@@ -1,15 +1,7 @@
 
 ### use generate_graph() to transform adjeceny matrix to graph
 import numpy as np
-from graph_tools import *
-def adj_mat():
-    n = int(input("Enter the size of the matrix:"))  
-    print("Enter the entries in a single line (separated by space): ") 
-    entries = list(map(int, input().split())) 
-    AM = np.array(entries).reshape(n, n) 
-    return AM
-    
-    
+from graph_tools import *    
 def generate_graph():
 #User input of entries in a single line separated by space 
     AM=adj_mat()
@@ -20,116 +12,68 @@ def generate_graph():
             if AM[i][j]==1:
                 d.add_edge(i,j)
     return d
-
-
-
-### get the two graphs from prover as adjecny matrix and print them using recive_graph()
-def recive_graph():
-    g0=generate_graph()
-    print(g0)
-    g1=generate_graph()
-    print(g1)
-    
     
     
 ### apply permutation to adjeceny matrix using apply_permut()
 
-def apply_permut(AM,p):
-    M=np.array(AM)
-    s=min(p)
-    for i in range(len(p)):
-        p[i]=p[i]-s
-    for i in range(len(p)):
-        M[:,i] = M[p,i]
-    for i in range(len(p)):
-        M[i,:] = M[i,p]
-    return M    
+def apply_permute(AM,pi):
+    l=[]
+    l1=[]
+    l2=[]
+    for i in range (len(AM)):
+        for j in range (len(AM)):
+            if AM[i][j]==1 :
+                l.append([i,j])
+    n=len(l)
+    for i in range (n):
+        l1.append( sorted(l[i]))
+    l2=sorted(l1)
+    for i in range (len(AM)):
+        if l2[i]==l2[(i+1)]:
+            l2.remove(l2[i])
+    l3=np.zeros([len(AM),2])
+    for i in range (len(AM)): 
+        for j in range (2):
+            if l2[i][j]==0:
+                l3[i][j]=pi[0]
+            if l2[i][j]==1:
+                l3[i][j]=pi[1]
+            if l2[i][j]==2:
+                l3[i][j]=pi[2]
+            if l2[i][j]==3:
+                l3[i][j]=pi[3]
+    AM0=np.zeros([len(AM),len(AM)])
+    for i in range (len(l3)):
+        a,b=l3[i]
+        AM0[int(a),int(b)]= AM0[int(b),int(a)]=1
+    return AM0
+
     
 
 
 ### composite two permutation using composite_permutition()
 
 def composite_permutition(p,g):
-    g1=[0]*len(p)
-    s=min(g)
-    if len(p)==len(g):
-        for i in range(len(p)):
-            g1[i]=g[((p[i]-s)%len(p))]
-        pass
-    return g1
+    p1=Permutation(p)
+    q1=Permutation(g)
+    return [(p1*q1)(i) for i in range(p1.size)]
         
    
    
   
    
-   ## check if two graphs are equal using are_same()
+   ## check if two Addjaceny Matrix are equal using are_equal()
    
-   def are_same(g0,g1):
-    s=len(g0.vertices())
-    q=len(g1.vertices())
-    a=0
-    for e in g0.edges():
-        for f in g1.edges():
-            if e==f :
-                a=a+1
-                break
-    if a==q and s==q :
-        return True
-    else :
-        return False
-        
-        
-        
- ###tansform permutation to cyclic graph to deal easy with it
- 
- def tran_permu_to_graph(g):
-    d = Graph(directed=False)
-    d.add_vertex(len(g))
-    for i in range(len(g)):
-        d.add_edge(g[(i)],g[(i+1)%len(g)])
-    return d
-    
-    
-    
-### generate permutation those produce different graphs using s_n() 
-
-def s_n(n):
-    from itertools import permutations 
-    l = list(permutations(range(1, n+1)))
-    l1=[]
-    l2=[]
-    l3=[]
-    for i in range(len(l)):
-        if l[i][0]==1:
-            l1.append(l[i])
-    l2=To_list(l1)
-    for i in range(len(l2)):
-        for j in range(i+1,len(l2)):
-            i1=Graph()
-            j1=Graph()
-            i1=tran_permu_to_graph(l2[i])
-            j1=tran_permu_to_graph(l2[j])
-            if are_same(i1,j1)==True :
-                l3.append(l2[i])
-    return l3
-
+   def are_equal(AM,AM1) :
+    return np.array_equal(AM1,AM)
 
 
 ### find the inverse of permutation using inv()
 
 def inv(perm):
-    s=min(perm)
-    inverse = [0] * len(perm)
-    for i, p in enumerate(perm):
-        inverse[p-s] = i+s
+    per=list(perm)
+    inverse = [0] * len(per)
+    for i, p in enumerate(per):
+        inverse[p] = i
     return inverse
     
-    
-    
-### transform the permutation to list of list using
- 
- def To_list(l):
-    l1=[]
-    for i in l:
-        l1.append(list(i))
-    return l1
