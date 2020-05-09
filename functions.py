@@ -17,43 +17,24 @@ def generate_graph():
 ### apply permutation to adjeceny matrix using apply_permut()
 
 def apply_permute(AM,pi):
-    l=[]
-    l1=[]
-    l2=[]
-    l0=[]
-    for i in range (len(AM)):
-        for j in range (len(AM)):
-            if AM[i][j]==1 :
-                l.append([i,j])
-    n=len(l)
+    n=len(AM)
+    AM1=np.zeros((n,n))
     for i in range (n):
-        l1.append( sorted(l[i]))
-    l2=sorted(l1)
-    for i in range (len(l2)-1):
-        if l2[i]==l2[(i+1)]:
-            l0.append(l2[i])
-    l3=np.zeros([len(l0),2])
-    for i in range (10): 
-        for j in range (2):
-            for k in range(10): 
-                if l0[i][j]==k:
-                    l3[i][j]=pi[k]
-    AM0=np.zeros([len(AM),len(AM)])
-    for i in range (len(l3)):
-        a,b=l3[i]
-        AM0[int(a),int(b)]= AM0[int(b),int(a)]=1
-    return AM0
+        for j in range (n):
+            if AM[i][j]==1 :
+                AM1[pi[i]][pi[j]]=1
+    return AM1
 
     
 
 
 ### composite two permutation using composite_permutition()
 
-def composite_permutition(p,g):
+from sympy.combinatorics import Permutation
+def compose_permutation(p,g):
     p1=Permutation(p)
     q1=Permutation(g)
     return [(p1*q1)(i) for i in range(p1.size)]
-        
    
    
   
@@ -72,4 +53,59 @@ def inv(perm):
     for i, p in enumerate(per):
         inverse[p] = i
     return inverse
+
+
+
+import csv
+def get_graph_from_file(i):
+    with open('matices.csv') as f:
+        content = f.readlines()
+    content = [x.strip() for x in content] 
+    l=[]
+    l=content[i]
+    matrix=[]
+    l[i]
+    n=int(np.sqrt(len(l)-2))
+    for i in range(1,len(l)-1):
+        matrix.append(l[i])
+        
+        
+       
     
+    def get_pi_from_file(i):
+    with open('matices.csv') as f:
+        content = f.readlines()
+    content = [x.strip() for x in content] 
+    l=[]
+    l=content[i]
+    matrix=[]
+    l[i]
+    n=int(np.sqrt(len(l)-2))
+    
+    
+    
+    
+    def equal(AM):
+    a=np.zeros([len(AM),len(AM)])
+    for i in range(len(AM)):
+        for j in range(len(AM)):
+            a[i][j]=AM[i,j]
+    return a
+    for i in range(1,len(l)-1):
+        matrix.append(int(l[i]))
+    return matrix
+    s=np.reshape(matrix,(n,n))
+    return s
+    
+    
+    
+    import networkx as nx
+import matplotlib.pyplot as plt
+def plot_graph(AM):
+    G = nx.Graph()
+    for i in range(len(AM)):
+        for j in range(len(AM)):
+            if AM[i][j]==1:
+                G.add_edge(i, j)
+    nx.draw(G, with_labels=True, font_weight='bold')
+    plt.show()
