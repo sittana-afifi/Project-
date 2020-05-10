@@ -15,9 +15,6 @@ def graph_isomorphism(P,V):
    
 
 
-    
-import math
-
 
 import math
 def honest_prover(AM,AM1,pi,mess_list,s):
@@ -67,13 +64,15 @@ def test_isomorphism(AM, AM1, pi):
     return graph_isomorphism(P,V)
     
     
-def protocol_dishonest_prover(G0, G1):
-    AM=enter_adjMatrix()
-    AM1=enter_adjMatrix()
-    pi=list(map(int, input('Enter pi:').split())) 
+
+
+def protocol_dishonest_prover(AM, AM1):
+    s=random.choice(range(1000))
     V=lambda msg: honest_verifier(AM,AM1,msg)
     P=lambda msg: cheating_prover(AM,AM1,msg,s)
     return graph_isomorphism(P,V)
+
+
     
     
     
