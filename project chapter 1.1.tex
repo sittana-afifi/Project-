@@ -1,0 +1,179 @@
+\documentclass[12pt,a4paper]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% packages %%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage[left=2cm,right=2cm,top=3cm,bottom=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{psfrag}
+
+%%%%%%%%%%%%%%%%%%%%% students data %%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\student}{Your full name here!}
+\newcommand{\course}{Course name goes here!}
+\newcommand{\assignment}{Put a number here!}
+
+%%%%%%%%%%%%%%%%%%% using theorem style %%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{exa}[thm]{Example}
+\newtheorem{rem}[thm]{Remark}
+\usepackage{braket}
+\newtheorem{coro}[thm]{Corollary}
+\newtheorem{quest}{Question}[section]
+
+%%%%%%%%%%%%%%  Shortcut for usual set of numbers  %%%%%%%%%%%
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\tens}[1]{%
+	\mathbin{\mathop{\otimes}\limits_{#1}}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+\begin{document}
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% title page %%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}
+\begin{center}
+\textbf{AFRICAN INSTITUTE FOR MATHEMATICAL SCIENCES \\[0.5cm]
+(AIMS RWANDA, KIGALI)}
+\vspace{1.0cm}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%% assignment information %%%%%%%%%%%%%%%%
+\noindent
+\rule{17cm}{0.2cm}\\[0.3cm]
+Name: Sittana Osman Afifi Mohamedelmubarak \hfill  ch 1\\[0.1cm]
+Zero Knowledge proof  \hfill Date: \today\\
+\rule{17cm}{0.05cm}
+\vspace{1.0cm}
+\section{Introduction}
+Recently many companies and banks ask their clients about personal data like their contact information, bank receipt, their tastes, or even their behavior patterns.
+This information is very valuable; A lot of companies try to collect as much information about their clients as they can, so they’ll be able to sell more ads, give better recommendations or keep users longer on their platforms. This is a problem since users can’t leave these companies to keep their privacy.
+Here is where zero-knowledge proof comes in, for example, users can prove to the bank that they have sufficient funds to get loans without telling them exactly how much they have.
+\subsection{Research Objectives}
+\begin{enumerate}	
+	\item
+	\begin{enumerate}
+To explore Zero-Knowledge proof protocol and mathematics behind it.
+\end{enumerate}	
+\item
+\begin{enumerate}
+To demonstrate Zero-Knowledge proof protocol for graph isomorphism using python.
+\end{enumerate}	
+\end{enumerate}	
+\subsection{Brief History of ZKP}
+Zero-knowledge was introduced in 1989 by Shafi Goldwasser, Silvio Micali, and Charles Rackoff in their paper ``The Knowledge Complexity of Interactive Proof-System``\cite{goldwasser1989knowledge:1} The first version of their paper has existed since 1982 and was rejected three times from major conferences (FOCS ’83, STOC ’84, FOCS ’84) before appearing in STOC ’85. Goldreich, Micali, and Wigderson showed how to construct zero-knowledge systems from any NP-set.
+\subsection{A very simple definition}
+Zero-knowlege proof (ZKP) is a way of handling data verification without revealing that piece of data.\\
+Basically, we have two parts:
+\begin{enumerate}	
+	\item
+	\begin{enumerate}
+\textbf{Prover}: the part that knows the secret and wants to prove to the second party that he knows the secret.
+\end{enumerate}	
+\item
+\begin{enumerate}
+ \textbf{Verifier}: the part that wants to be convinced that the prover has the secret.
+\end{enumerate}	
+\end{enumerate}	
+A Zero-Knowledge Proof must satisfy three properties:\cite{101block:2}
+\begin{enumerate}	
+\item
+\begin{enumerate}
+\textbf{Completeness}: if the statement is true and prover and verifier are both honest(applying the protocol probably) then the verifier will be convinced by the fact.
+\end{enumerate}	
+\item
+\begin{enumerate}
+\textbf{Soundness}: if the statement is false no verifier will be convinced by a cheating prover this statement is true, except with a small probability.
+
+\end{enumerate}	
+\item
+\begin{enumerate}
+\textbf{Zero-Knowledge}: the prover does not leak any information more than that he knows the secret.this ensured by necessitating that the verifier can do the protocol alone without knowing any additional information other than from its interaction with the prover.
+\end{enumerate}	
+\end{enumerate}	
+There are main two types of zero-knowledge proof:\cite{couteau2017zero:4}
+\begin{enumerate}	
+	\item
+	\begin{enumerate}
+		\textbf{Interactive zero-knowledge proof}: This type includes interchanging several messages between the prover and the verifier.
+	\end{enumerate}
+	\item
+	\begin{enumerate}
+		\textbf{Non-interactive zero-knowledge proof}: In this type, there is no interaction, it contains only a single flow from the prover to the verifier.
+	\end{enumerate}
+\end{enumerate}
+\subsection{Simple example (Two balls and the color-blind friend)}
+Imagine you have a friend (the verifier) who is color-blind and can’t see the difference between a green
+and a red ball, to him, the balls have the same color and you (the prover) want to prove to him that they are in fact different.
+He doesn’t need to know which is red and which is green, just whether or not they are different.
+So you give him the two balls and take note of which ball is in which hand. Then, he puts the balls behind his back and chooses to either switch them around or not.
+After that, he shows them to you again. Now you have to tell him whether or not the balls have switched hands. If they were the same color you would not be able to differentiate between the two options. So, there would be no way you could guess correctly with a probability of more than 0.5 since the probability that you can guess randomly the right answer is 50$\%$, but this probabilty will reduce to an acceptable level if we repeat this process as often as necessary.\\
+This proof is zero-knowledge protocol because your friend just learns there are two different balls but he doesn’t know which one is red and which one is green.
+\subsection{Application of ZKP}
+\begin{enumerate}	
+	\item
+	\begin{enumerate}
+\textbf{Authentication systems}: ZKP help uses the user who wants to demonstrate its identity (password for example) via some secret to a second party without learning anything about this secret.
+\end{enumerate}	
+	\item
+\begin{enumerate}
+\textbf{Ethical behavior}:  ZKP uses to oblige a user to prove that his behavior is correct according to the protocol, because ZKP saves the privacy of the user’s secret during the process of providing the proof.
+\end{enumerate}	
+	\item
+\begin{enumerate}
+\textbf{Nuclear disarmament}: ZKP assists inspectors to confirm whether or not an object is indeed a nuclear weapon without recording, sharing, or revealing the internal workings which might be secret.
+\end{enumerate}	
+	\item
+\begin{enumerate}
+\textbf{Blockchain}: by using ZKP we can perform a valid transaction with keeping the sender, the recipient, and all other transaction details remain hidden.
+\end{enumerate}	
+\end{enumerate}	
+\section{Mathematical Background:}
+In the previous swction, we gave a brief  introduction about ZKP, in this chapter, we introduce some concepts in graph theory and mathematical aspect of ZKP,in addition Graph Isomorphism based Zero-Knowledge Proofs.\\
+\subsection{Zero-Knowledge Proof}
+\begin{defn}(zero-knowlege proof):\cite{lec-notes1:3}
+Suppose $L$ is a language. A zero-knowledge protocol is an interaction between two probabilistic polynomial-time algorithms $P$ and $V$ with $P$ trying to convince $V$ that $x\in L$ and satisfying properties (1), (2), and (3) described below.:-
+
+\begin{enumerate}	
+\item
+\begin{enumerate}
+\textbf{Completeness}: If $x\in L$, $w$ is the correct witness, and the protocol is honestly executed, then $V$ outputs ACCEPT.
+\end{enumerate}	
+\item
+\begin{enumerate}
+\textbf{Soundness}: if $x\notin L$, for every probabilistic polynomial time algorithm $\hat{P}$, there is a negligible function $negl(\cdot)$ such that: 
+$$Pr[\hat{P} \text{ convinces } V \text{ that } x\in L]\leq negl(\cdot).$$
+\end{enumerate}	
+\item
+\begin{enumerate}
+\textbf{Zero-knowledge}: This definition represents the idea that $P$ does not leak any information by necessitating that $V$ can perform the protocol “alone”, and if $V$ can perform the protocol alone, then $V$ does not learn any additional information from its interaction with $P$.This intuition is formalized by necessitating that there is a standalone simulator $S$ which can produce a transcript which is indistinguishable from that of $P$ and $V$.\\
+Formally, if for all $x\in L$ there is a probabilistic polynomial time algorithm $S$ which can output a transcript $\acute{\tau}$ such that $\tau \approx_{c} \acute{\tau}$, where $\tau$ is the distribution of the original interaction(between $P$ and $V$) transcript. The algorithm $S$ is often called a simulator.
+\end{enumerate}
+\end{enumerate}
+\end{defn}
+\bibliography{refer}
+\bibliographystyle{ieeetr}
+\end{document}
