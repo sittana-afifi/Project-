@@ -1,3 +1,4 @@
+
 \documentclass[12pt,a4paper]{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%% packages %%%%%%%%%%%%%%%%%%%%%%%%
@@ -47,6 +48,13 @@
 	\mathbin{\mathop{\otimes}\limits_{#1}}%
 }
 
+\definecolor{DSgray}{cmyk}{0,0,0,0.7}
+\definecolor{DSred}{cmyk}{0,0.7,0,0.7}
+\newcommand{\Authornote}[2]{\noindent{\small\textcolor{DSgray}{\sf{
+\textcolor{red}{[#1: #2]\marginpar{\textcolor{red}{\fbox{\Large !}}}}}}}}
+\newcommand{\Jnote}{\Authornote{Jan}}
+\newcommand{\Snote}{\Authornote{Sittana}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
 \begin{document}
 \pgfdeclarelayer{background}
@@ -69,14 +77,29 @@ Zero Knowledge proof  \hfill Date: \today\\
 \rule{17cm}{0.05cm}
 \vspace{1.0cm}
 \section{Introduction}
+\Jnote{Title suggestion: Zero-Knowledge Proofs: Implementation of
+  the Graph Isomorphism Protocol
+}
 Recently many companies and banks ask their clients about personal data like their contact information, bank receipt, their tastes, or even their behavior patterns.
 This information is very valuable; A lot of companies try to collect as much information about their clients as they can, so they’ll be able to sell more ads, give better recommendations or keep users longer on their platforms. This is a problem since users can’t leave these companies to keep their privacy.
 Here is where zero-knowledge proof comes in, for example, users can prove to the bank that they have sufficient funds to get loans without telling them exactly how much they have.
+
+\Jnote{please pay attention: they'll, can't}
+
+\Jnote{``since users can't leave these companies'', I don't understand
+  the sentence, try rephrasing}
+
+\Jnote{In general: please expand a rephrase. Explain more what the problem
+  with privacy is. Consider expanding the loan example you give and/or more
+examples.}
+
 \subsection{Research Objectives}
 \begin{enumerate}	
 	\item
 	\begin{enumerate}
-To explore Zero-Knowledge proof protocol and mathematics behind it.
+          To explore Zero-Knowledge proof protocol and mathematics behind it.
+          \Jnote{Be consistent: Is ``proof'' in ZK proof capitalized or not?
+            Here it isn't, later it is.}
 \end{enumerate}	
 \item
 \begin{enumerate}
@@ -84,10 +107,17 @@ To demonstrate Zero-Knowledge proof protocol for graph isomorphism using python.
 \end{enumerate}	
 \end{enumerate}	
 \subsection{Brief History of ZKP}
-Zero-knowledge was introduced in 1989 by Shafi Goldwasser, Silvio Micali, and Charles Rackoff in their paper ``The Knowledge Complexity of Interactive Proof-System``\cite{goldwasser1989knowledge:1} The first version of their paper has existed since 1982 and was rejected three times from major conferences (FOCS ’83, STOC ’84, FOCS ’84) before appearing in STOC ’85. Goldreich, Micali, and Wigderson showed how to construct zero-knowledge systems from any NP-set.
+\Jnote{This section should come after you explain what ZKPs are.}
+
+Zero-knowledge was introduced in 1989 by Shafi Goldwasser, Silvio Micali, and Charles Rackoff in their paper ``The Knowledge Complexity of Interactive Proof-System``\cite{goldwasser1989knowledge:1}
+The first version of their paper has existed since 1982 and was rejected three times from major conferences (FOCS ’83, STOC ’84, FOCS ’84) before appearing in STOC ’85.
+\Jnote{Cite a source for this.}
+Goldreich, Micali, and Wigderson showed how to construct zero-knowledge systems from any NP-set.
+\Jnote{Cite the paper and expand. Explain briefly what NP is.}
 \subsection{A very simple definition}
-Zero-knowlege proof (ZKP) is a way of handling data verification without revealing that piece of data.\\
+  Zero-knowlege proof (ZKP) is a way of handling data verification without revealing that piece of data.\\
 Basically, we have two parts:
+\Jnote{Not ``parts'', but ``parties'', here and below.}
 \begin{enumerate}	
 	\item
 	\begin{enumerate}
@@ -96,13 +126,18 @@ Basically, we have two parts:
 \item
 \begin{enumerate}
  \textbf{Verifier}: the part that wants to be convinced that the prover has the secret.
+\end{enumerate}
+\Jnote{Maybe: wants to learn (verify) if the prover knows the secret or not.}
 \end{enumerate}	
-\end{enumerate}	
-A Zero-Knowledge Proof must satisfy three properties:\cite{101block:2}
+A Zero-Knowledge Proof must satisfy three properties: \cite{101block:2}
+\Jnote{If this is from a website, put a link in the reference. Also you can cite
+this, but please also cite a textbook.}
 \begin{enumerate}	
 \item
 \begin{enumerate}
-\textbf{Completeness}: if the statement is true and prover and verifier are both honest(applying the protocol probably) then the verifier will be convinced by the fact.
+  \textbf{Completeness}: if the statement is true and prover and verifier are both honest(applying the protocol probably) then the verifier will be convinced by the fact.
+  \Jnote{probably? Also watch space before parenthesis.}
+  \Jnote{I would say verifier will be convinced by the prover.}
 \end{enumerate}	
 \item
 \begin{enumerate}
@@ -111,9 +146,20 @@ A Zero-Knowledge Proof must satisfy three properties:\cite{101block:2}
 \end{enumerate}	
 \item
 \begin{enumerate}
-\textbf{Zero-Knowledge}: the prover does not leak any information more than that he knows the secret.this ensured by necessitating that the verifier can do the protocol alone without knowing any additional information other than from its interaction with the prover.
+  \textbf{Zero-Knowledge}: the prover does not leak any information more than that he knows the
+  secret.this \Jnote{Please watch the details}
+  ensured by necessitating that the verifier can do the protocol alone without knowing any additional information other than from its interaction with the prover.
+
+  \Jnote{First sentence is unclear, please rephrase.}
+
+  \Jnote{Clarify: Assuming the statement is true, the verifier can simulate
+  the protocol with honest prover by itself.}
 \end{enumerate}	
-\end{enumerate}	
+\end{enumerate}
+
+\Jnote{Indicate somewhere that interactive proof is an important concept on its own,
+  and that ``zero-knowledge'' is an additional property of an interactive proof.}
+
 There are main two types of zero-knowledge proof:\cite{couteau2017zero:4}
 \begin{enumerate}	
 	\item
@@ -124,7 +170,9 @@ There are main two types of zero-knowledge proof:\cite{couteau2017zero:4}
 	\begin{enumerate}
 		\textbf{Non-interactive zero-knowledge proof}: In this type, there is no interaction, it contains only a single flow from the prover to the verifier.
 	\end{enumerate}
-\end{enumerate}
+      \end{enumerate}
+
+\Jnote{Indicate that your thesis focuses on interactive ZKPs.}
 \subsection{Simple example (Two balls and the color-blind friend)}
 Imagine you have a friend (the verifier) who is color-blind and can’t see the difference between a green
 and a red ball, to him, the balls have the same color and you (the prover) want to prove to him that they are in fact different.
@@ -132,7 +180,18 @@ He doesn’t need to know which is red and which is green, just whether or not t
 So you give him the two balls and take note of which ball is in which hand. Then, he puts the balls behind his back and chooses to either switch them around or not.
 After that, he shows them to you again. Now you have to tell him whether or not the balls have switched hands. If they were the same color you would not be able to differentiate between the two options. So, there would be no way you could guess correctly with a probability of more than 0.5 since the probability that you can guess randomly the right answer is 50$\%$, but this probabilty will reduce to an acceptable level if we repeat this process as often as necessary.\\
 This proof is zero-knowledge protocol because your friend just learns there are two different balls but he doesn’t know which one is red and which one is green.
+
+\Jnote{This is a nice example! If it's taken from somewhere, please cite.}
+
+\Jnote{You can expand on this example: 1) If you are verifier, it is easy
+  to simulate (when you ask the question you already know the answer so
+  in simulation you can just give yourself back the correct answer).
+  2) We can see a difficulty in transforming this example into a mathematical
+  idea: You can't force yourself to be color-blind.
+}
+
 \subsection{Application of ZKP}
+\Jnote{Citations would be nice. Also please take another pass over the language.}
 \begin{enumerate}	
 	\item
 	\begin{enumerate}
@@ -154,6 +213,7 @@ This proof is zero-knowledge protocol because your friend just learns there are 
 \section{Mathematical Background:}
 In the previous swction, we gave a brief  introduction about ZKP, in this chapter, we introduce some concepts in graph theory and mathematical aspect of ZKP,in addition Graph Isomorphism based Zero-Knowledge Proofs.\\
 \subsection{Zero-Knowledge Proof}
+\Jnote{In the citation, please credit the lecturer (Goyal) as the first author.}
 \begin{defn}(zero-knowlege proof):\cite{lec-notes1:3}
 Suppose $L$ is a language. A zero-knowledge protocol is an interaction between two probabilistic polynomial-time algorithms $P$ and $V$ with $P$ trying to convince $V$ that $x\in L$ and satisfying properties (1), (2), and (3) described below.:-
 
@@ -174,6 +234,11 @@ Formally, if for all $x\in L$ there is a probabilistic polynomial time algorithm
 \end{enumerate}
 \end{enumerate}
 \end{defn}
+\Jnote{I'm afraid you have to write this definition in your own words!}
+
+\Jnote{Also you need to explain more. What is witness? What is negligible?
+  Transcript? $\approx_c$?\\
+I would even suggest explaining what is language, probabilistic polynomial-time, etc.}
 \bibliography{refer}
 \bibliographystyle{ieeetr}
 \end{document}
