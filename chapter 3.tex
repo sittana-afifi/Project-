@@ -47,7 +47,15 @@
 	\mathbin{\mathop{\otimes}\limits_{#1}}%
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+\definecolor{DSgray}{cmyk}{0,0,0,0.7}
+\definecolor{DSred}{cmyk}{0,0.7,0,0.7}
+\newcommand{\Authornote}[2]{\noindent{\small\textcolor{DSgray}{\sf{
+\textcolor{red}{[#1: #2]\marginpar{\textcolor{red}{\fbox{\Large !}}}}}}}}
+\newcommand{\Jnote}{\Authornote{Jan}}
+\newcommand{\Snote}{\Authornote{Sittana}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 555
 \begin{document}
 \pgfdeclarelayer{background}
 \pgfsetlayers{background,main}
@@ -70,13 +78,25 @@ Zero Knowledge proof  \hfill Date: \today\\
 \vspace{1.0cm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\\
 \\
-In the previous chapter, we gave an introduction on Zero-knowledge proofs and Graph isomorphism based on zero-knowledge. In this chapter, we present an implementation of Graph isomorphisms based on zero-knowledge using Python for the original interaction between the prover and the verifier and for the simulator $S$ that we mentioned in chapter 2.\\
+In the previous chapter, we gave an introduction on Zero-knowledge proofs and Graph isomorphism based on zero-knowledge. In this chapter, we present an implementation of Graph isomorphisms
+\Jnote{implementation of GI \emph{protocol}}
+based on zero-knowledge using Python for the original interaction
+\Jnote{What do you mean by original interaction?}
+between the prover and the verifier and for the simulator $S$ that we mentioned in chapter 2.\\
 In addition, we show different scenarios for the prover and the verifier and examine the corresponding outputs.
 According to our code, we suppose that the graphs we use are undirected and so the adjacency matrices are symmetric.
 \section{Implementation}
 According to the protocol that we discussed in the previous chapter, the input is two graphs and the output is a list containing:
 $H=\sigma(G_0)$, $ch$, $\varphi$ and ’Accept’ or ’Reject’.
+
 \subsection{Packages we import}
+\Jnote{There is no need to make such a list. Instead I would suggest you
+  discuss important tools you used in a
+  couple of sentences. Something like
+  ``graphs were represented as adjacency matrices;
+  graph-tools was used for handling graphs; networkx and matplotlib for drawing
+  graph representations; we also used some combinatorial and numerical functions
+  from numpy and sympy''}
 \begin{itemize}
 	\item Math.
 	\item Numpy.
@@ -87,6 +107,19 @@ $H=\sigma(G_0)$, $ch$, $\varphi$ and ’Accept’ or ’Reject’.
 	\item Matplotlib.pyplot.
 \end{itemize}
 \subsection{Functions we use}
+\Jnote{A similar thing here. I suggest that you put the list below in appendix
+  as documentation of your project. In the main thesis please write
+  a paragraph about the structure of your program, something like
+  ``we have a variety of helper functions to handle graphs and permutations,
+  including checking equality, applying permutation to a graph, inverting
+  a permutation; we then implement each scenario (honest prover and honest verifier
+  for isomorphic graphs...) in a separate function''.}
+
+\Jnote{I also suggest that you describe some of the technical challenges.
+  For example, ``since the protocol involves multiple rounds of interaction,
+  the state of prover and verifier between rounds needs to be saved. we
+  achieve that by storing the random seed used by the prover as its
+  additional hidden input''.}
 \begin{itemize}
 	\item \textbf{generate-graph}\\
 ``generate-graph`` function enables us to transform the adjacency matrix into a graph using graph-tools package.
@@ -99,7 +132,11 @@ $H=\sigma(G_0)$, $ch$, $\varphi$ and ’Accept’ or ’Reject’.
 \item \textbf{are-equal}\\
 ``are-equal`` function checks if two adjacency matrices are equal or not.
 \item \textbf{honest-prover}\\
-``honest-prover`` function applies the protocol honestly for prover's side: It takes two adjacency matrices to represent two corresponding graphs $(G_0,G_1)$, the secret $\Pi$, seed $s$ to generate random permutation, and $mess-list$ as an output for the whole protocol to update it during interaction with the verifier. 
+  ``honest-prover`` function applies the protocol honestly for prover's side: It takes two adjacency matrices to represent two corresponding graphs $(G_0,G_1)$, the secret $\Pi$, seed $s$ to generate random permutation, and $mess-list$
+  \Jnote{You can use ``\textbackslash verb'' to print code like names of variables.
+    Google ``not so short introduction to latex'' and see section 2.11.5,
+  ``printing verbatim''.}
+  as an output for the whole protocol to update it during interaction with the verifier. 
 \item \textbf{honest-verifier}
 ``honest-verifier``  function applies the protocol honestly for the verifier's side: It takes two adjacency matrices to represent two corresponding graphs $(G_0,G_1)$, and $mess-list$ to update it during interaction with the prover. 
 \item \textbf{graph-isomorphism}\\
@@ -125,14 +162,33 @@ $H=\sigma(G_0)$, $ch$, $\varphi$ and ’Accept’ or ’Reject’.
 In this section we show different scenarios and their results. Firstly Figure \ref{fig:csv} shows the csv file that contains our data:
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1.15\linewidth]{csv}
+%	\includegraphics[width=1.15\linewidth]{csv}
 	\caption{csv file}
 	\label{fig:csv}
 \end{figure}\\
+      
+\Jnote{I could not see this file, but if it's a text file with data then
+  I'm not sure that you should include it.}
+
 We have four cases,  three of them using the original protocol and the last case using simulator, each one of them has two possible cases; which are \textbf{ch=0} (the fourth component is always Accept) and \textbf{ch=1}(the fourth component is different from one case to another):
+\Jnote{Don't write ``fourth component is accept'',
+  write just ``the verifier accepts''.}
+\Jnote{I don't understand, why verifier always accepts if ch=0? In any case,
+  please remind the reader what is ch.}
 \begin{itemize}
 \item \textbf{Case 1: Interaction between honest prover and honest verifier}\\
-First we get the adjacency matrices and $\Pi$ from a csv file and delete any additional data as follows:\\
+  \Jnote{I would like you to say, for every case, something like:
+    ``Inputs are two permutations of a 4-cycle, isomorphic to each other.
+    The prover and verifer and honest, and therefore we expect the
+    verifier to always accept. Indeed, this is the outcome we observe
+    over several runs of the protocol. Below we present one
+    representative run...''}
+
+  \Jnote{I don't think it is necessary to insert print screens of code
+    into your thesis.}
+  
+  First we get the adjacency matrices and $\Pi$ from a csv file and delete any additional data as follows:\\
+  \Jnote{You assume the figure comes here, but it does not...}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.25\linewidth]{3-1}
@@ -158,7 +214,7 @@ The first output is printing the two graphs shown by Figure  \ref{fig:case 1,$G_
 	\end{subfigure}
 	\caption{$G_0$ and $G_1$ case 1 with $ch=0$}
 	\label{fig:case 1,$G_0$ and $G_1$ with $ch=0$}
-\end{figure}\\
+      \end{figure}\\
 Let us see the situation when the verifier chooses \textbf{ch=0}:\\
  \begin{figure}[h]
  	\centering
@@ -208,7 +264,10 @@ when \textbf{ch=0} the first output is printing the two graphs shown by Figure \
 	\end{subfigure}
 	\caption{case 2, $G_0$ and $G_1$ with $ch=0$}
 	\label{20}
-\end{figure}\\
+      \end{figure}\\
+      \Jnote{I do not think it is informative for the reader to give long print
+        screens from python. Instead, I suggest you draw the graph $H$ and
+      then specify permutations that map $G_0$ and $G_1$ to $H$.}
 Let us see the situation when the verifier chooses \textbf{ch=0}:\\
 \begin{figure}[h]
 	\centering
@@ -299,6 +358,16 @@ Let us see the situation when the verifier chooses \textbf{ch=1}, Figure \ref{fi
 	\label{fig:3-22}
 \end{figure}\\
 \\
+
+\Jnote{For non-isomorphic graphs and cheating prover, I suggest you run the
+  simulation many times, count how many times the verifier accepted and
+  report your results.}
+
+\Jnote{I also suggest you include a case where you have large non-isomorphic
+  graphs where it is not easily visible that they are non-isomorphic.
+  For example, make two large isomorphic graphs as above and flip one edge
+  randomly.}
+
 \item \textbf{Case 4: Interaction between cheating prover and honest verifier using simulator}\\
 We use the same data in the previous case,so there is no need to update it,when $ch=0$ the first output is $G_0$ and $G_1$ shown by Figure \ref{fig: case 4, $G_0$ and $G_1$, with $ch=0$}:\\\\
 \\
