@@ -49,6 +49,13 @@
 	\mathbin{\mathop{\otimes}\limits_{#1}}%
 }
 
+\definecolor{DSgray}{cmyk}{0,0,0,0.7}
+\definecolor{DSred}{cmyk}{0,0.7,0,0.7}
+\newcommand{\Authornote}[2]{\noindent{\small\textcolor{DSgray}{\sf{
+\textcolor{red}{[#1: #2]\marginpar{\textcolor{red}{\fbox{\Large !}}}}}}}}
+\newcommand{\Jnote}{\Authornote{Jan}}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
 \begin{document}
 \pgfdeclarelayer{background}
@@ -72,16 +79,35 @@ Zero-Knowledge proofs: Implementation of the Graph Isomorphism Protocol  \hfill 
 \vspace{1.0cm}
 
 \section{Graph isomorphism}
+\Jnote{Please start each section with a short description of what will be
+  in the section. For example,
+  ``In this section we will make and explain definitions
+  of graphs and the main problem concerning this thesis, that is the graph
+  isomorphism problem.''}
+
 \begin{defn}[Graph \cite{gross2003handbook:5}] An undirected graph consists of a set of vertices (nodes) $V$ and a set of edges $E$.\\
+\Jnote{...``where each edge consists of two distinct vertices''}
 Two nodes $u$ and $v$ are said to be adjacent if there is an edge $(u,v) \in E$.
 \end{defn}
-We can describe graph using its adjacency matrix which is a square matrix $M_{n\times n}$, with $m_{ij}=1 $ if $(i,j)\in E$ and $0$ otherwise.     
+
+\Jnote{In general, I don't understand why you keep using \textbackslash\textbackslash
+  \ instead of starting new paragraph.}
+
+We can describe graph using its adjacency matrix which is a square matrix $M_{n\times n}$, with $m_{ij}=1 $ if $(i,j)\in E$ and $0$ otherwise.
+
+\Jnote{Why is $M$ written with a big letter and $m_{ij}$ with a small letter?}
+
 \begin{defn}
-Let $V(G)$, $E(G)$ denote the vertex set and edge set of a graph $G$ respectively. Then, a pair of graphs $(G_0, G_1)$ are \textbf{isomorphic} (denoted $G_0 \cong G_1$) if there exists a bijective map $\Pi:V(G_0)\longmapsto V(G_1)$such that $\forall x,y \in V(G_0), (x,y)\in E(G_0)$ if and only if $(\Pi(x)\Pi(y))\in E(G_1)$. The permutation $\Pi$ is called an isomorphism.\cite{lec-notes1:3}
+  Let $V(G)$, $E(G)$ denote the vertex set and edge set of a graph $G$ respectively. Then, a pair of graphs $(G_0, G_1)$ are \textbf{isomorphic} (denoted $G_0 \cong G_1$) if there exists a bijective map $\Pi:V(G_0)\longmapsto V(G_1)$such that $\forall x,y \in V(G_0), (x,y)\in E(G_0)$ if and only if $(\Pi(x)\Pi(y))\in E(G_1)$. The permutation $\Pi$ is called an isomorphism.\cite{lec-notes1:3}
+  \Jnote{There should be a comma in $(\Pi(x),\Pi(y))$. Also you can delete
+    citation in this case.}
 \end{defn}
 In other words: two graphs are said to be isomorphic if after we relabel vertices in one graph we get the other graph (with the same adjacency matrix).
 \begin{exa}
- Two isomorphic graphs with their corresponding adjacency matrices.
+  Two isomorphic graphs with their corresponding adjacency matrices.
+  \Jnote{This is not even a sentence. Please write something like
+    ``We show a simple example of two isomorphic graphs and their adjacency
+  matrices''.}
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{.29\linewidth}
@@ -139,11 +165,18 @@ In other words: two graphs are said to be isomorphic if after we relabel vertice
 	\end{minipage} 
 \end{table}
 
-In Figure \ref{fig:Two isomorphic graphs} $G_1$ is obtained, by relabeling the vertices of $G_0$ according to the following permutation: (1, 4, 5, 2, 3). This means that Node 3 in $G_0$ becomes Node 5 in $G_1$, Node 4 becomes Node 2. 
+In Figure \ref{fig:Two isomorphic graphs} $G_1$ is obtained, by relabeling the vertices of $G_0$ according to the following permutation: (1, 4, 5, 2, 3). This means that Node 3 in $G_0$ becomes Node 5 in $G_1$, Node 4 becomes Node 2.
+\Jnote{You can also comment that adjacency matrix of $G_1$ is obtained by
+  permuting rows and columns of adjacency matrix of $G_0$ according to the
+  permutation $\Pi$.}
 \end{exa}
 \subsection{Graph Isomorphism based Zero-Knowledge Proofs}
+\Jnote{Section title: ``Zero-Knowledge Proof for Graph Isomorhpism}
+
 Suppose we have two isomorphic graphs $G_0$ and $G_1$ and $G_1=\Pi(G_0)$, with limited messages between the prover ($P$) and verifier($V$), $P$ wants to prove to $V$ he knows the secret $\Pi$ without showing him what is $\Pi$ exactly.
+\Jnote{Try dividing the previous sentence into two and making them clearer.}
 In the previous example, we can see that it is easy to show if two graphs are isomorphic or not but this process isn’t always simple; suppose we have two graphs each with $10$ vertices and $28$ edges, such as the graphs in Figure \ref{fig:Two isomorphic graphs has 10 vertices and 28 edges}:
+\Jnote{``For the graphs in Example 3, it is easy to see that they are isomorphic...''}
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{.39\linewidth}
@@ -157,11 +190,14 @@ In the previous example, we can see that it is easy to show if two graphs are is
 	\caption{Two isomorphic graphs.}
 	\label{fig:Two isomorphic graphs has 10 vertices and 28 edges}
 \end{figure}\\
-Then ZKP can provide a protocol that $P$ can prove to $V$ he knows the secret $\Pi$ without revealing $\Pi$ itself.\\
+Then ZKP can provide a protocol that $P$ can prove to $V$ he knows the secret $\Pi$ without revealing $\Pi$ itself.\Jnote{``A zero-knowledge proof is a protocol where...''. In general, I suggest
+  you try and get some help (your tutor?) with proofreading and the language.}
+\\
 The protocol is done by applying a random permutation ($\varphi$) on $G_0$ by $P$, with: $$H=\varphi(G_0)$$ and the honest prover has to be able to find a permutation such that he could transform $H$ to either $G_0$ or $G_1$.(i.e to prove $H\cong G_0$ or $H\cong G_1$)\\
+\Jnote{Period is in the wrong place in the preceding sentence.}
 \subsection{ Zero-Knowledge Protocol for Graph Isomorphism}
 We have two graphs known by both parties $G_0$ and $G_1$ such that they have $n$ vertices, define $S_n$ as a set of permutations of $n$ elements.\\   
-The protocol proceeds by the following:\cite{lec-notes1:3}\\
+The protocol proceeds by the following: \cite{lec-notes1:3}\\
 \textbf{Input}: pair of graphs $(G_0,G_1)$
 \begin{enumerate}	
 	\item
@@ -183,31 +219,56 @@ The protocol proceeds by the following:\cite{lec-notes1:3}\\
 \end{enumerate}
 \end{enumerate}
 \subsection{graph isomorphism (GI) decision problem}
+\Jnote{This section should be before you introduce the ZK proof.}
+
+\Jnote{Again, do not start with the definition. Explain in a few sentences
+  what you are going to do and why.}
+
 \begin{defn}[graph isomorphism (GI) decision problem \cite{goldreich2007foundations:17}]
 \textit{Input}: pair of two finite graphs ($G_0 , G_1$).\\
 \textit{Output}: ACCEPT if and only if they are isomorphic.\\
 Complexity can be measured in the number of vertices.
+\Jnote{Better: ``We are going to measure the computational complexity of this
+  problem as a function of the number of vertices.''}
 \end{defn}
 \subsubsection{The complexity of GI \cite{goldreich2007foundations:17}}
+\Jnote{Please don't insert citations everywhere like that. Instead write a sentence
+  like ``The discussion in this section is based on \emph{cite}''. Then there
+  is no need to keep making citations in the rest of the section.}
 If we have two graphs and we want to check whether they are isomorphic or not; the brute force algorithm is to apply all possible permutation in $S_n$ but this run in $n!$ and it’s slower than any exponential algorithm.\\
-There is a petter algorithm but not in polynomial-time, because no polynomial-time algorithm yet is known to solve it (if it was in P, then there is no need to apply ZKP; the verifier can check if graphs are isomorphic).\\  
+There is a better algorithm but not in polynomial-time, because no polynomial-time algorithm yet is known to solve it (if it was in P, then there is no need to apply ZKP; the verifier can check if graphs are isomorphic).\\  
 Moreover, GI also isn't considered to be NP-complete, This put GI in  intermediate complexity problems (neither P nor NP-complete). 
 In L{\'a}szl{\'o} Babai’s paper \cite{babai2016graph:16} according to  \textbf{Corollary, 1.1.2} GI can be solved in quasipolynomial time and it’s run in $O(exp(log(n)^c))$
+\Jnote{Do not cite ``Corollary 1.1.2''. Also say that this is the best known
+  algorithm. Also mention that this running time is not polynomial, but better
+  than any exponential.}
+\Jnote{Also use \textbackslash exp, \textbackslash log \textbackslash Pr
+  when writing functions.}
+
+
 \begin{thm}\cite{goldreich2007foundations:17}\\
 The above protocol satisfies completeness, soundness $\frac{1}{2}$, and zero-knowledge.	
 \end{thm}
+\Jnote{What above protocol? This is in a wrong place.}
 \textbf{Proof}\\
+\Jnote{Why aren't you using \textbackslash begin\{proof\}?}
 \textbf{Completeness.}
 Completeness is quite straight forward, here we are dealing with honest prover $G_0\cong G_1$ who knows $\Pi$, the verifier will check $\varphi$ for both possible cases:
+\Jnote{Please say one thing at a time. We assume that the graphs are isomorphic.
+  We also assume that the prover is honest and knows $\Pi$.
+  What are the two cases you discuss below? You need to say it: We are going to
+consider two cases, depending on the value of ch that was sent by the verifier.}
 \begin{enumerate}	
 \item
 \begin{enumerate}
 ($ch=0$): from step (1) $P$ calculates $H=\sigma(G_0)$ and he should find a bijective map from $H$ to $G_0$:\\
-it's clear that $\varphi = \sigma$ because $\sigma(G_0)=\sigma(G_0$
+it's clear that $\varphi = \sigma$ works because $\sigma(G_0)=\sigma(G_0)$
 \end{enumerate}
 	\item
 	\begin{enumerate}
-($ch=1$): $P$ has to find a map from $H$ to $G_1$ or to show that $H\cong \varphi(G_1)$:\\
+          ($ch=1$): $P$ has to find a map from $H$ to $G_1$ or to show that $H\cong \varphi(G_1)$:\\
+          \Jnote{You are showing that $H=\varphi(G_1)$, not that they are
+            isomorphic.}
 		We know that:
 \begin{equation}
 G_1=\Pi(G_0)\label{eq:1}
@@ -238,9 +299,17 @@ pick random $H$ and send it to $V$.
 \end{enumerate}
 \end{enumerate}
 Since $G_0\ncong G_1$ then $H$ such is isomorphic to  $G_0$ or  $G_1$, so whatever prover does, after it sends $H$, $H$ cannot be isomorphic to both $G_0$ and $G_1$.\\
+\Jnote{Again, say one thing at a time, slowly. First, you assume $G_0$ and $G_1$
+  are not isomorphic. Then, you take any prover $P^*$. Such a prover can do many
+  things. For example, it can choose $b$ and sent random permutation of $G_b$.
+  Or it can send random permutation of $G_1$. Or it can send an arbitrary graph
+  $H$. But these are just examples and your argument works for any possible prover.
+  You need to make that clear.}
 So whatever happens, honest verifier always has at least $1/2$ chance to choose $b$ that fails the prover, so:
 $$Pr[P^* \text{ convinces } V \text{ that }G_0 \cong G_1]\leq 1/2$$
-If we want to decrease the soundness to be negligible we have to repeat the verification procedure sufficiently many times, if we repeate it $n$ times it will be soundness with $2^{-n}$ which is smaller than any polynomial-time algorithm.
+If we want to decrease the soundness to be negligible we have to repeat the verification procedure sufficiently many times, if we repeat it $n$ times it will be soundness with $2^{-n}$ which is smaller than any polynomial-time algorithm.
+\Jnote{Not algorithm, just polynomial. You can add that $2^{-n}$ is
+a negligible function.}
 
 \textbf{zero-knowledge.}
 We want to show that there exists a polynomial-time simulator $S$ such that if $G_0$ and  $G_1$ are isomorphic then for an honest prover and for every verifier $V^*$:
@@ -272,17 +341,21 @@ If $ch=b$, output $\sigma$ and return the transcript, else loop.
 \end{enumerate}
 \end{enumerate}
 Now we want to show equation \ref{eq:3}  is satisfied:\\
-First: the transcript is \{$H,ch(H,V^*),\sigma$\} where $H$ is a result of applying a random permutation on $G_0$ (same as a result of applying a random permutation on $G_1$), $ch$ was generated by $V^*$ from $H$ and $\sigma$ is a random permutation from $S_n$.\\
+First: the transcript is \{$H,ch(H,V^*),\sigma$\} where $H$ is a result of applying a random permutation on $G_0$ (same as a result of applying a random permutation on $G_1$), $ch$ was generated by $V^*$ from $H$ and $\sigma$ is a random permutation from $S_n$.
+\Jnote{I would write: $H$ is a result of applying random permutation on $G_b$
+  (same as applying on $G_1$) and $\sigma$ satisifes $\sigma(G_b)=H$}.\\
 In the simulator, the distribution is generated in the same way, only there is always probability $\frac{1}{2}$ the simulator loop. But this probability (Pr[$b\neq ch$])  is independent of $H$ so it doesn’t change the distribution of transcripts.\\
 Then we want to show is a polynomial-time:\\
 Let $k$ be the number of loops, we want to show that $S$ is polynomial-time by calculating the expected value of $k$:\\
-When $k=1$ : $E[k]=1/2$\\
+When $k=1$ : $E[k]=1/2$
+\Jnote{No, the correct equation should be $\Pr[k=1]=1/2$}\\
 When $k=2$ : $E[k]=1/4$\\
 When $k=3$ : $E[k]=1/8$ and so on \\
 But this is a geometric distribution:
 $$P(X = x) = q^{x-1}p$$ where $q = 1 - p$ 
 With $E[k]=\sum_{i=1} i*pr(k=i) =\frac{1}{p}=2$\\
-Since the expected value of $k$ while $k$ is the number of loops is 2, then $S$ is polynomial-time. 
+Since the expected value of $k$ while $k$ is the number of loops is 2, then $S$ is polynomial-time.
+\Jnote{``...$S$ runs in expected polynomial time''.}
 
 
 
