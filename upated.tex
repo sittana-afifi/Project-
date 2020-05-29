@@ -6,21 +6,32 @@
 \usepackage{graphicx}
 \newtheorem{thm}{Theorem}
 \newtheorem{proof}{Proof}
+
+\usepackage{xcolor}
+\definecolor{DSgray}{cmyk}{0,0,0,0.7}
+\definecolor{DSred}{cmyk}{0,0.7,0,0.7}
+\newcommand{\Authornote}[2]{\noindent{\small\textcolor{DSgray}{\sf{
+\textcolor{red}{[#1: #2]\marginpar{\textcolor{red}{\fbox{\Large !}}}}}}}}
+\newcommand{\Jnote}{\Authornote{Jan}}
 \begin{document}
-	\section{Application of ZKP}
-	In order to give the reader a motivation to explore further on Zero-Knowledge Proofs, we present in this section some interesting applications:
-	\begin{enumerate}
+\section{Application of ZKP}
+\Jnote{Applications of ZKPs}
+
+In order to give the reader a motivation to explore further on Zero-Knowledge Proofs, we present in this section some interesting applications:
+\begin{enumerate}
 		\item
 		\begin{enumerate}
-			\textbf{Applications of Zero-Knowledge Range proof \cite{morais2019survey:19}}
-			let us mention a special kind of ZKP, Zero-Knowledge Range Proofs (ZKRP). ZKRP allows us to verify that a number lies within a certain range. Note that ZKRP holds the same three properties as ZKP, which are completeness, soundness, and zero-knowledge.
+                  \textbf{Applications of Zero-Knowledge Range proof \cite{morais2019survey:19}}
+                  \Jnote{``proofs''}
+                  let \Jnote{``Let'', please take a look at typos like that.} us mention a special kind of ZKP,
+                  Zero-Knowledge Range Proofs (ZKRP). ZKRP allows us to verify that a number lies within a certain range. Note that ZKRP holds the same three properties as ZKP, which are completeness, soundness, and zero-knowledge.
 			\begin{itemize}
 				\item
 				\item Over 18 ZKRP (zero-knowledge range proofs):
 				We can use this application in services that need to validate their user’s age before he gets to access their server. The interesting feature in ZKRP is that a user can validate his age without revealing it.
 				\item 
 				Know Your Customer (KYC):
-				Since ZKRP allows us to validate that a certain amount of private information is in a specific range, we can use this property to ensure compliance while maintaining the user’s privacy.
+				Since ZKRP allows us to validate that a certain amount of private information is in a specific range, we can use this property to ensure compliance while maintaining the user’s privacy.\Jnote{Can you give a more specific example?}
 				\item 
 				
 				Mortgage risk assessment:
@@ -37,11 +48,13 @@
 		\end{enumerate}
 		\item
 		\begin{enumerate}
-			\textbf{Authentication systems}: ZKP help the user who wants to verify its identity (password for example) via some secret to a second party, but the second party should not learn anything about this secret.\cite{zk}
+                  \textbf{Authentication systems}: ZKP help the user who wants to verify its identity (password for example) via some secret to a second party, but the second party should not learn anything about this secret.\cite{zk}
+                  \Jnote{Correct English in that sentence.}
 		\end{enumerate}	
 		\item
 		\begin{enumerate}
-			\textbf{Ethical behavior}:  ZKP uses to oblige a user to prove that his behavior is correct according to the protocol, because ZKP saves the privacy of the user’s secret during the process of providing the proof.\cite{zknowledge:13}
+                  \textbf{Ethical behavior}:  ZKP uses to oblige a user to prove that his behavior is correct according to the protocol, because ZKP saves the privacy of the user’s secret during the process of providing the proof.\cite{zknowledge:13}
+\Jnote{Same as with KYC, is there a more specific example?}
 		\end{enumerate}	
 		\item
 		\begin{enumerate}
@@ -49,19 +62,24 @@
 		\end{enumerate}	
 		\item
 		\begin{enumerate}
-			\textbf{DLT (Distributed ledger technology) and blockchain}: by using ZKP we can perform a valid transaction with keeping the sender, the recipient, and all other transaction details remain hidden:
+                  \textbf{DLT (Distributed ledger technology) and blockchain}: by using ZKP we can perform a valid transaction with \Jnote{``while''}
+                  keeping the sender, the recipient, and all other transaction details
+                  remain \Jnote{delete ``remain''} hidden:
 			\begin{itemize}
 				\item
 				\item
 				Confidential Transactions:
 				
-				In a usual transaction in DLT, the amount of money spent is public for anyone in the network, by using CT, each party can use a commitment scheme to hide the amount they send or receive. Hence, no adversary can see this amount.
+				In a usual transaction in DLT, the amount of money spent is public for anyone in the network, by using CT
+                                \Jnote{What is CT?}, each party can use a commitment scheme to hide the amount they send or receive. Hence, no adversary can see this amount.
 				\item
 				Provisions:
 				
 				Bitcoin exchanges work like banks, by holding their customer's bitcoin securely on their behalf, but these exchanges should have a proof of solvency, to avoid big problems like customer losing their money permanently. 
 				A proof of solvency shows that the exchanges have sufficient reserves to settle each customer's account.
 				Provisions (a privacy-preserving proof of solvency) is when an exchange could have a proof of solvency without revealing its Bitcoin addresses; total funds or liabilities; or any information about its customers.
+                                \Jnote{This is nice, but there should be a reference
+                                  somewhere.}
 			\end{itemize}
 		\end{enumerate}	
 	\end{enumerate}	
@@ -70,28 +88,57 @@
 \subsection{Graph Three-Colorability Problem (G3C)
 \cite{morais2019survey:19}}
 G3C is NP-complete, therefore it can be used for any language in NP, the protocol rests on a ``computational assumption``.
+\Jnote{These comments should come after you explain the problem. Also maybe
+  you want to explain why ZK protocol for an NP-complete problem implies
+  that you have ZK protocol for every problem in NP. For this you want
+  to define what is a reduction (look it up in Chapter 2 of Arora-Barak)
+  and then say that for any other language prover and verifier can first
+  reduce their inputs to 3-coloring and then run ZK proof for 3-coloring. 
+  }
 
 first, let's give the idea of G3C problem :
-The idea of this problem is, we want to color a graph $G$ with 3 different colors such that no two adjacent vertices have the same color.  Suppose $G=(E,V)$ with, $\mid E\mid=m$ and $\mid V\mid=n$
-The following protocol should apply $m^2$ times using independent coin tosses:
+The idea of this problem is, we want to color a graph $G$ with 3 different colors such that no two adjacent vertices have the same color.  Suppose $G=(E,V)$ with,
+$\mid E\mid=m$
+\Jnote{Don't use \textbackslash mid for this, just $|E|$.}
+
+and $\mid V\mid=n$
+The following protocol should apply \Jnote{apply $->$ be repeated}
+$m^2$ times using independent coin tosses:
+\Jnote{Before you start, explain that you assume that the prover has
+  a 3-coloring of the graph and that you call it $\phi$.}
 \begin{enumerate}
-	\item The prover chooses random permutation $\Pi$ for the proper coloring ($\phi$) to get new coloring and put these colors into $n$ locked boxes and send them without their keys to the verifier.
+\item The prover chooses random permutation $\Pi$ \Jnote{Rephrase to make
+    it clear that it is permutation of colors of $\phi$.}
+  for the proper coloring ($\phi$) to get new coloring and put these colors into $n$ locked boxes and send them without their keys to the verifier.
 	\item The verifier chooses randomly an edge $e\in E$ and sends it to the prover.
-	\item Let e=(u,v), if $e\in E$ then the prover sends the corresponding keys to the verifier, else prover do nothing.
+	\item Let e=(u,v), if $e\in E$ then the prover sends the corresponding
+          \Jnote{Which keys are corresponding?}
+          keys to the verifier, else prover do nothing.
 	\item The verifier opens the boxes and sends accept iff they are different.
+          \Jnote{If what is different?}
 \end{enumerate}
 
+
+\Jnote{I suggest you don't write as theorem/proof, just write a couple of
+  paragraphs where you sketch why this protocol has three properties.}
 \begin{thm}
 	G3C protocol satisfies completeness, soundness and zero-knowledge.
 \end{thm}
 \begin{proof}
+  \Jnote{Divide it into paragraphs.}
 	Completeness. Since $G \in G3C$, then for any edge $e \in E$, therefore the verifier will see any corresponding boxes they don’t have the same color.
 	So the verifier returns accept for all $m^2$ iteration.
 	Soundness. If $G\notin G3C$ then at least there is one edge has the same color on its vertices, so in each round the verifier will reject with probability at least $1/m$.
 	The protocol satisfies soundness $(1/m)^{m^2}$
+        \Jnote{It's $(1-1/m)^{m^2} \le \exp(-1/m\cdot m^2)=\exp(-m)$.}
 	Zero-knowledge. We have to construct a simulator $S$ such that it produces a transcript which is computationally indistinguishable from that produced from the protocol between the prover and the verifier.
 	Since we are dealing with any verifier  define a black box $V^*$ to get the edge $e$ from it to avoid any attempt from the verifier to get more information from the verifier.
 	Since $\pi$ also selected randomly and independently at each round, so the transcript that produced from $S$ is indistinguishable from the one between the prover and the verifier.
+        \Jnote{The reason this protocol is zero-knowledge is because:
+          1) Verifier cannot learn anything from unopened commitments.
+          2) Information from open commitments are indistinguishable
+          from random different colors $(a, b)$, which can be generated by
+          the simulator.}
 \end{proof}
  
 \bibliography{references}
